@@ -1,4 +1,5 @@
 #import "NUITextViewRenderer.h"
+#import "NUIViewRenderer.h"
 
 @implementation NUITextViewRenderer
 
@@ -19,6 +20,8 @@
     if ([NUISettings hasProperty:property withClass:className]) {
         [textView setContentInset:[NUISettings getEdgeInsets:@"padding" withClass:className]];
     }
+    
+    [NUIViewRenderer renderBorder:textView withClass:className];
 }
 
 @end

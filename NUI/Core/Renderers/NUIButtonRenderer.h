@@ -16,4 +16,6 @@
 
 + (void)render:(UIButton*)button withClass:(NSString*)className;
 
++ (void)alterButtonAttributedTitle:(UIButton*)button property:(NSString*)property controlState:(UIControlState)controlState className:(NSString*)className;
+
 @end

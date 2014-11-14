@@ -7,6 +7,7 @@
 //
 
 #import "UIView+NUI.h"
+#import "Reachability.h"
 
 @implementation UIView (NUI)
 
@@ -79,10 +80,30 @@
     return objc_getAssociatedObject(self, kNUIAssociatedClassKey);
 }
 
-- (void)setNuiApplied:(BOOL)value {
-    
-    objc_setAssociatedObject(self, kNUIAssociatedAppliedFlagKey, [NSNumber numberWithBool:value], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (BOOL)offlineHidden {
+    NSNumber *number = objc_getAssociatedObject(self, kNUIOfflineClassKey);
+    return [number boolValue];
+}
 
+- (BOOL)isCurrentlyDisplayed {
+    NSNumber *number = objc_getAssociatedObject(self, kNUICurrentlyDisplayedClassKey);
+    return [number boolValue];
+}
+
+- (void)setNuiApplied:(BOOL)value {
+    objc_setAssociatedObject(self, kNUIAssociatedAppliedFlagKey, [NSNumber numberWithBool:value], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)setOfflineHidden:(BOOL)offlineHidden {
+    
+    NSNumber *number = [NSNumber numberWithBool:offlineHidden];
+    objc_setAssociatedObject(self, kNUIOfflineClassKey, number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)setIsCurrentlyDisplayed:(BOOL)isCurrentlyDisplayed {
+    
+    NSNumber *number = [NSNumber numberWithBool:isCurrentlyDisplayed];
+    objc_setAssociatedObject(self, kNUICurrentlyDisplayedClassKey, number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (BOOL)isNUIApplied {

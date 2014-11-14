@@ -122,7 +122,43 @@ static NUISettings *instance = nil;
     if ([ruleSet objectForKey:property] == nil) {
         return NO;
     }
+    if ([self isNUIIgnoreProperty:property withClass:className]) {
+        return NO;
+    }
     return YES;
+}
+
+
+//Returns TRUE only if the property exists and is equal to @"nui_abort"
++ (BOOL)isNUIAbortProperty:(NSString*)property withClass:(NSString*)className {
+    
+    NSMutableDictionary *ruleSet = [instance.styles objectForKey:className];
+    if (ruleSet == nil) {
+        return NO;
+    }
+    id value = [ruleSet objectForKey:property];
+    if ([value isKindOfClass:[NSString class]] && [value isEqualToString:@"nui_abort"]) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
+//Returns TRUE only if the property exists and is equal to @"nui_ignore"
++ (BOOL)isNUIIgnoreProperty:(NSString*)property withClass:(NSString*)className {
+    
+    NSMutableDictionary *ruleSet = [instance.styles objectForKey:className];
+    if (ruleSet == nil) {
+        return NO;
+    }
+    id value = [ruleSet objectForKey:property];
+    if ([value isKindOfClass:[NSString class]] && [value isEqualToString:@"nui_ignore"]) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 + (BOOL)hasProperty:(NSString*)property withClass:(NSString*)className
@@ -130,7 +166,13 @@ static NUISettings *instance = nil;
     NSArray *classes = [self getClasses:className];
     for (NSString *inheritedClass in classes) {
         if ([self hasProperty:property withExplicitClass:inheritedClass]) {
-            return YES;
+            //If the existing property is @"nil", we could ignore it on this class and on it's parents classes
+            if ([self isNUIAbortProperty:property withClass:inheritedClass]) {
+                return NO;
+            }
+            else {
+                return YES;
+            }
         }
     }
     return NO;

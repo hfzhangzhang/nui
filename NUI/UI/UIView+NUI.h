@@ -13,6 +13,8 @@
 @interface UIView (NUI)
 
 @property (nonatomic, retain) NSString* nuiClass;
+@property (nonatomic, assign) BOOL offlineHidden;
+@property (nonatomic, assign) BOOL isCurrentlyDisplayed;
 @property (nonatomic, assign, getter = isNUIApplied) BOOL nuiApplied;
 
 - (void)applyNUI;

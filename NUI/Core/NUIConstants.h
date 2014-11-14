@@ -12,6 +12,8 @@ static NSString * const kNUIClassNone               = @"none";
 
 #pragma mark - Keys for Object Association
 
+static void * const kNUICurrentlyDisplayedClassKey  = "isCurrentlyDisplayed";
+static void * const kNUIOfflineClassKey             = "offlineHidden";
 static void * const kNUIAssociatedClassKey          = "nuiClass";
 static void * const kNUIAssociatedAppliedFlagKey    = "nuiIsApplied";
 static void * const kNUIAssociatedGradientLayerKey  = "nuiGradientLayer";

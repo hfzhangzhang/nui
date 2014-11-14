@@ -31,6 +31,15 @@
             [self transformText];
         }
     }
+    
+    if (self.offlineHidden)
+    {
+        if (!self.isCurrentlyDisplayed)
+            [self setAlpha:0.4];
+        else
+            [self setAlpha:1.0];
+    }
+    
     self.nuiApplied = YES;
 }
 

@@ -121,6 +121,17 @@
     if ([NUISettings hasProperty:@"font-color-highlighted" withClass:className]) {
         [button setTitleColor:[NUISettings getColor:@"font-color-highlighted" withClass:className] forState:UIControlStateHighlighted];
     }
+    else
+    {
+        UIColor *clrNormal = [button titleColorForState:UIControlStateNormal];
+        CGFloat hue = 0, saturation = 0, brightness = 0, alpha = 0;
+        BOOL success = [clrNormal getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        
+        if (success)
+        {
+            [button setTitleColor:[UIColor colorWithHue:hue saturation:saturation brightness:(brightness * 0.7) alpha:alpha] forState:UIControlStateHighlighted];
+        }
+    }
     if ([NUISettings hasProperty:@"font-color-selected" withClass:className]) {
         [button setTitleColor:[NUISettings getColor:@"font-color-selected" withClass:className] forState:UIControlStateSelected];
     }
@@ -133,6 +144,26 @@
     if ([NUISettings hasProperty:@"font-color-disabled" withClass:className]) {
         [button setTitleColor:[NUISettings getColor:@"font-color-disabled" withClass:className] forState:UIControlStateDisabled];
     }
+    else
+    {
+        UIColor *clrNormal = [button titleColorForState:UIControlStateNormal];
+        CGFloat hue = 0, saturation = 0, brightness = 0, alpha = 0;
+        BOOL success = [clrNormal getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        
+        if (success)
+        {
+            [button setTitleColor:[UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:0.3] forState:UIControlStateDisabled];
+        }
+    }
+    
+    NSString *property = @"text-transform";
+    [NUIButtonRenderer alterButtonAttributedTitle:button property:property controlState:UIControlStateNormal className:className];
+    
+    property = @"text-transform-selected";
+    [NUIButtonRenderer alterButtonAttributedTitle:button property:property controlState:UIControlStateSelected className:className];
+    
+    property = @"text-transform-highlighted";
+    [NUIButtonRenderer alterButtonAttributedTitle:button property:property controlState:UIControlStateHighlighted className:className];
     
     // Set text shadow color
     if ([NUISettings hasProperty:@"text-shadow-color" withClass:className]) {
@@ -179,6 +210,27 @@
     }
     
     [NUIViewRenderer renderShadow:button withClass:className];
+}
+
++ (void)alterButtonAttributedTitle:(UIButton*)button property:(NSString*)property controlState:(UIControlState)controlState className:(NSString*)className
+{
+    if ([NUISettings hasProperty:property withClass:className])
+    {
+        NSString *transform = [NUISettings get:property withClass:className];
+        if ([transform isEqualToString:@"underline"])
+        {
+            NSDictionary *dict1 = @{};
+            NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] init];
+            [attString appendAttributedString:[[NSAttributedString alloc] initWithString:button.titleLabel.text attributes:dict1]];
+            [button setAttributedTitle:attString forState:controlState];
+        }
+        if ([transform isEqualToString:@"none"])
+        {
+            NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:button.titleLabel.text attributes:[NSDictionary new]];
+            [button setAttributedTitle:attString forState:controlState];
+            
+        }
+    }
 }
 
 @end

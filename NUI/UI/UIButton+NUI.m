@@ -14,12 +14,19 @@
 {
     if (!self.nuiClass) {
         self.nuiClass = @"Button";
+        self.isCurrentlyDisplayed = YES;
     }
 }
 
 - (void)applyNUI
 {
     [self initNUI];
+    
+    if (self.offlineHidden)
+    {
+        [self setEnabled:self.isCurrentlyDisplayed];
+    }
+    
     BOOL forceRender = NO;
     NSString *selfClass = NSStringFromClass([self class]);
     NSString *superviewClass = NSStringFromClass([[self superview] class]);
