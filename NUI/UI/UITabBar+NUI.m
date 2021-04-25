@@ -31,12 +31,12 @@
     self.nuiApplied = YES;
 }
 
-- (void)override_didMoveToWindow
+- (void)override_UITabBar_didMoveToWindow
 {
     if (!self.isNUIApplied) {
         [self applyNUI];
     }
-    [self override_didMoveToWindow];
+    [self override_UITabBar_didMoveToWindow];
 }
 
 - (void)override_dealloc {

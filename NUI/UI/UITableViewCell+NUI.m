@@ -27,12 +27,12 @@
     self.nuiApplied = YES;
 }
 
-- (void)override_didMoveToWindow
+- (void)override_UITableViewCell_didMoveToWindow
 {
     if (!self.isNUIApplied) {
         [self applyNUI];
     }
-    [self override_didMoveToWindow];
+    [self override_UITableViewCell_didMoveToWindow];
 }
 
 - (void)override_dealloc {
